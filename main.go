@@ -2,11 +2,11 @@ package main
 
 import (
 	"fmt"
+	"github.com/HelpDeskPlatform/gin-jwt/config"
+	"github.com/HelpDeskPlatform/gin-jwt/db"
+	"github.com/HelpDeskPlatform/gin-jwt/jwt"
 	"github.com/gin-gonic/gin"
 	"github.com/x1unix/godotenv"
-	"go-jwt/config"
-	"go-jwt/db"
-	"go-jwt/jwt"
 	"log"
 )
 

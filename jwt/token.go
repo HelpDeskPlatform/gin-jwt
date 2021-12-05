@@ -2,10 +2,10 @@ package jwt
 
 import (
 	"fmt"
+	"github.com/HelpDeskPlatform/gin-jwt/config"
+	"github.com/HelpDeskPlatform/gin-jwt/db"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/google/uuid"
-	"go-jwt/config"
-	"go-jwt/db"
 	"strings"
 	"time"
 )

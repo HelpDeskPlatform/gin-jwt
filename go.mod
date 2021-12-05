@@ -1,4 +1,4 @@
-module go-jwt
+module github.com/HelpDeskPlatform/gin-jwt
 
 go 1.17
 
