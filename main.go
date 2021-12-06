@@ -21,13 +21,6 @@ func initEnv() {
 	}
 }
 
-func InIt() {
-	config.SetEnvironment()
-	if err := db.NewDatabase(config.RedisAddr); err != nil {
-		log.Println(err)
-	}
-}
-
 func init() {
 	initEnv()
 }
