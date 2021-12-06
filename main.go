@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/HelpDeskPlatform/gin-jwt/config"
 	"github.com/HelpDeskPlatform/gin-jwt/db"
-	"github.com/HelpDeskPlatform/gin-jwt/jwt"
+	simpleJwt "github.com/HelpDeskPlatform/gin-jwt/jwt"
 	"github.com/gin-gonic/gin"
 	"github.com/x1unix/godotenv"
 	"log"
@@ -21,6 +21,13 @@ func initEnv() {
 	}
 }
 
+func InIt() {
+	config.SetEnvironment()
+	if err := db.NewDatabase(config.RedisAddr); err != nil {
+		log.Println(err)
+	}
+}
+
 func init() {
 	initEnv()
 }
@@ -29,9 +36,9 @@ func main() {
 	if config.GinMode == "release" {
 		gin.SetMode(gin.ReleaseMode)
 	}
-	token := jwt.Token{ID: "hello"}
+	token := simpleJwt.Token{ID: "hello"}
 	jwtToken := token.Login()
-	id, err := jwt.Authorize("Bearer " + jwtToken.AccessToken)
+	id, err := simpleJwt.Authorize("Bearer " + jwtToken.AccessToken)
 	if err != nil {
 		panic(err)
 	}
