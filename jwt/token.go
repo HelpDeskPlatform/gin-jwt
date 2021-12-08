@@ -28,7 +28,7 @@ type accessDetails struct {
 	userId     string
 }
 
-type authToken struct {
+type AuthToken struct {
 	AccessToken  string
 	RefreshToken string
 }
@@ -105,7 +105,7 @@ func verifyToken(bearToken string) (*jwt.Token, error) {
 	return token, nil
 }
 
-func extractTokenMetadata(bearToken string) (*accessDetails, error) {
+func extractTokenMetaData(bearToken string) (*accessDetails, error) {
 	token, err := verifyToken(bearToken)
 	if err != nil {
 		return nil, err
@@ -144,7 +144,7 @@ func deleteAuth(givenUuid string) (int64, error) {
 
 // Authorize for authorizing every request
 func Authorize(token string) (string, error) {
-	accessDetails, err := extractTokenMetadata(token)
+	accessDetails, err := extractTokenMetaData(token)
 	if err != nil {
 		return "", err
 	}
@@ -152,7 +152,7 @@ func Authorize(token string) (string, error) {
 }
 
 // Login generate access token and logged
-func (t Token) Login() authToken {
+func (t Token) Login() AuthToken {
 	token, err := t.createToken()
 	if err != nil {
 		panic(err)
@@ -160,12 +160,12 @@ func (t Token) Login() authToken {
 	if err := t.createAuth(token); err != nil {
 		panic(err)
 	}
-	return authToken{AccessToken: token.accessToken, RefreshToken: token.refreshToken}
+	return AuthToken{AccessToken: token.accessToken, RefreshToken: token.refreshToken}
 }
 
 // Logout user while decided to logged out from his own
 func Logout(token string) error {
-	au, err := extractTokenMetadata(token)
+	au, err := extractTokenMetaData(token)
 	if err != nil {
 		return err
 	}
@@ -177,7 +177,7 @@ func Logout(token string) error {
 }
 
 // TokenRefresh for refresh token after access token invalided
-func TokenRefresh(refreshToken string) (*authToken, error) {
+func TokenRefresh(refreshToken string) (*AuthToken, error) {
 	token, err := parseToken(refreshToken, config.RefreshSecret)
 	if err != nil {
 		return nil, err

@@ -12,7 +12,7 @@ import (
 
 func initEnv() {
 	log.Printf("Loading environment settings.")
-	if err := godotenv.Load("../../.env"); err != nil {
+	if err := godotenv.Load(".env"); err != nil {
 		log.Println("No local env file. Using global OS environment variables")
 	}
 	config.SetEnvironment()
