@@ -6,6 +6,7 @@ import (
 	"github.com/HelpDeskPlatform/gin-jwt/db"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/google/uuid"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -35,10 +36,12 @@ type AuthToken struct {
 
 func (t Token) createToken() (*tokenDetails, error) {
 	td := &tokenDetails{}
-	td.atExpires = time.Now().Add(time.Minute * 15).Unix()
+	tokenExpireAt, _ := strconv.Atoi(config.TokenExpiresAt)
+	refreshTokenExpireAt, _ := strconv.Atoi(config.RefreshTokenExpiresAt)
+	td.atExpires = time.Now().Add(time.Second * time.Duration(tokenExpireAt)).Unix()
 	td.accessUuid = uuid.New().String()
 
-	td.rtExpires = time.Now().Add(time.Hour * 24 * 7).Unix()
+	td.rtExpires = time.Now().Add(time.Second * time.Duration(refreshTokenExpireAt)).Unix()
 	td.refreshUuid = uuid.New().String()
 
 	var err error
@@ -46,7 +49,7 @@ func (t Token) createToken() (*tokenDetails, error) {
 		"authorized":  true,
 		"user_id":     t.ID,
 		"access_uuid": td.accessUuid,
-		"exp":         time.Now().Add(time.Minute * 15).Unix(),
+		"exp":         td.atExpires,
 	}
 	at := jwt.NewWithClaims(jwt.SigningMethodHS256, atClaims)
 	td.accessToken, err = at.SignedString([]byte(config.AccessSecret))
