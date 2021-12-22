@@ -5,11 +5,13 @@ import (
 )
 
 var (
-	AccessSecret  = ""
-	RedisAddr     = ""
-	GinPort       = ""
-	GinMode       = ""
-	RefreshSecret = ""
+	AccessSecret          = ""
+	RedisAddr             = ""
+	GinPort               = ""
+	GinMode               = ""
+	RefreshSecret         = ""
+	TokenExpiresAt        = "300"
+	RefreshTokenExpiresAt = "86400"
 )
 
 // GetEnvDefault is responsible for getting environment variable
@@ -29,4 +31,6 @@ func SetEnvironment() {
 	GinPort = GetEnvDefault("GIN_PORT", "8008")
 	GinMode = os.Getenv("GIN_MODE")
 	RefreshSecret = os.Getenv("REFRESH_SECRET")
+	TokenExpiresAt = os.Getenv("TOKEN_EXPIRE_AT")
+	RefreshTokenExpiresAt = os.Getenv("REFRESH_TOKEN_EXPIRE_AT")
 }
